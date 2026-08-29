@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://artemsokolov.github.io/sitemap.xml
+Sitemap: https://artemsokolov1.github.io/sitemap.xml

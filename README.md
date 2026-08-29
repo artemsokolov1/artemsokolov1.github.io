@@ -1,4 +1,4 @@
-# artemsokolov.github.io
+# artemsokolov1.github.io
 
 Персональная визитка Артёма Соколова — AI-разработчика из Новосибирска.
 Одна компактная карточка: кто я, разделы «Игры» и «Сервисы», донат и контакты.
@@ -19,9 +19,9 @@ assets/img/artem.jpg    ваше фото (добавьте сами)
 
 ## Публикация на GitHub Pages (бесплатно)
 
-1. Создайте на GitHub **публичный** репозиторий с именем ровно `artemsokolov.github.io`
+1. Создайте на GitHub **публичный** репозиторий с именем ровно `artemsokolov1.github.io`
    — оно должно совпадать с вашим username, тогда сайт откроется по адресу
-   https://artemsokolov.github.io/
+   https://artemsokolov1.github.io/
 2. В этой папке выполните:
 
    ```bash
@@ -29,7 +29,7 @@ assets/img/artem.jpg    ваше фото (добавьте сами)
    git add .
    git commit -m "Портфолио: первая версия"
    git branch -M main
-   git remote add origin https://github.com/artemsokolov/artemsokolov.github.io.git
+   git remote add origin https://github.com/artemsokolov1/artemsokolov1.github.io.git
    git push -u origin main
    ```
 
