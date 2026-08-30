@@ -43,6 +43,11 @@
     });
   });
 
+  /* ---------- Клик по домену: открыть сайт, не трогая раскрытие ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.item > summary a'), function (link) {
+    link.addEventListener('click', function (e) { e.stopPropagation(); });
+  });
+
   /* ---------- Копирование кошелька ---------- */
   var copyBtn = document.getElementById('copyBtn');
   var status = document.getElementById('copyStatus');
