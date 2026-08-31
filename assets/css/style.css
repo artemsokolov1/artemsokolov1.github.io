@@ -128,9 +128,29 @@ p { margin: 0; }
   opacity: .75;
 }
 
-/* ---------- Строка проекта ---------- */
-.item { border-top: 1px solid var(--line); }
-.item:last-child { border-bottom: 1px solid var(--line); }
+/* ---------- Строка проекта ----------
+   Ссылка на домен лежит СНАРУЖИ <details> и позиционируется поверх строки:
+   внутри <summary> Safari на iOS не даёт ссылке сработать — тап засчитывается
+   как раскрытие блока. Отсюда .row с position: relative.                     */
+.row { position: relative; border-top: 1px solid var(--line); }
+.row:last-child { border-bottom: 1px solid var(--line); }
+
+/* Блок, а не флекс: строка текста ложится на ту же базовую линию,
+   что и название слева, — без подгонки высот. */
+.row__meta {
+  position: absolute;
+  top: 0;
+  right: 26px;
+  max-width: 62%;
+  padding: 10px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+.row__meta > * { pointer-events: auto; }
 
 .item > summary {
   display: flex;
@@ -158,23 +178,30 @@ p { margin: 0; }
 
 /* домен виден сразу, в свёрнутой строке */
 .item__domain {
-  min-width: 0;
+  position: relative;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   border-bottom: 1px solid transparent;
   transition: color .15s ease, border-color .15s ease;
 }
+/* палец толще ссылки: расширяем область нажатия, не трогая вёрстку */
+a.item__domain::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -8px;
+  right: -8px;
+}
 a.item__domain:hover { color: var(--accent); border-bottom-color: currentColor; }
+a.item__domain:active { color: var(--accent); }
 .item__domain--off { opacity: .65; }
 
 .item__state {
+  margin-left: 8px;
   font-size: 11px;
   color: var(--dim);
-  white-space: nowrap;
   opacity: .8;
 }
 
