@@ -1,11 +1,12 @@
 /* =========================================================
-   Артём Соколов — визитка. Минимализм, одна колонка.
+   Артём Соколов — портфолио. Сетка проектов с обложками.
    Тёмная тема по умолчанию, светлая — data-theme="light".
    ========================================================= */
 
 :root {
   --bg:         #0b0d12;
   --panel:      rgba(255,255,255,.035);
+  --shot:       rgba(255,255,255,.05);
   --line:       rgba(255,255,255,.09);
   --line-hi:    rgba(255,255,255,.18);
   --text:       #e9ecf3;
@@ -14,7 +15,6 @@
   --accent:     #7c8cff;
   --live:       #34d399;
   --dev:        #fbbf24;
-  --soon:       #7f8798;
   --font:       "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   --mono:       "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 }
@@ -22,15 +22,15 @@
 [data-theme="light"] {
   --bg:         #f6f7fa;
   --panel:      #ffffff;
+  --shot:       #eef0f5;
   --line:       rgba(16,20,32,.10);
   --line-hi:    rgba(16,20,32,.24);
   --text:       #14181f;
   --muted:      #5a6270;
-  --dim:        #878e9b;
+  --dim:        #787f8d;
   --accent:     #4059e0;
   --live:       #0f9d63;
   --dev:        #b8791a;
-  --soon:       #7a818e;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -39,9 +39,9 @@ body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 28px 18px;
+  padding: 32px 18px 44px;
   font-family: var(--font);
   font-size: 15px;
   line-height: 1.55;
@@ -53,26 +53,22 @@ body {
 a { color: inherit; text-decoration: none; }
 h1, h2 { margin: 0; line-height: 1.2; letter-spacing: -.015em; }
 p { margin: 0; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 5px; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
-/* ---------- Карточка ---------- */
+/* ---------- Карточка страницы ---------- */
 .card {
   width: 100%;
-  max-width: 560px;
+  max-width: 880px;
   padding: 26px 26px 20px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--panel);
-  backdrop-filter: blur(10px);
 }
 [data-theme="light"] .card { box-shadow: 0 12px 34px rgba(20,26,48,.07); }
 
 /* ---------- Шапка ---------- */
-.me {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+.me { display: flex; align-items: center; gap: 15px; }
 
 .avatar {
   position: relative;
@@ -83,7 +79,7 @@ p { margin: 0; }
   overflow: hidden;
   border: 1px solid var(--line);
 }
-.avatar__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar__img { width: 100%; height: 100%; object-fit: cover; }
 .avatar__ph {
   display: none;
   position: absolute;
@@ -92,7 +88,6 @@ p { margin: 0; }
   justify-content: center;
   font-size: 17px;
   font-weight: 600;
-  letter-spacing: .02em;
   color: #fff;
   background: linear-gradient(135deg, var(--accent), #b06cff);
 }
@@ -106,13 +101,13 @@ p { margin: 0; }
 .me__bio { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
 
 /* ---------- Блоки ---------- */
-.block { margin-top: 22px; }
+.block { margin-top: 26px; }
 
 .label {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .12em;
@@ -124,115 +119,113 @@ p { margin: 0; }
   font-size: 10.5px;
   letter-spacing: .04em;
   text-transform: none;
-  color: var(--dim);
   opacity: .75;
 }
 
-/* ---------- Строка проекта ----------
-   Ссылка на домен лежит СНАРУЖИ <details> и позиционируется поверх строки:
-   внутри <summary> Safari на iOS не даёт ссылке сработать — тап засчитывается
-   как раскрытие блока. Отсюда .row с position: relative.                     */
-.row { position: relative; border-top: 1px solid var(--line); }
-.row:last-child { border-bottom: 1px solid var(--line); }
+/* ---------- Сетка проектов ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 18px 16px;
+}
 
-/* Блок, а не флекс: строка текста ложится на ту же базовую линию,
-   что и название слева, — без подгонки высот. */
-.row__meta {
+.tile { display: block; }
+
+.tile__shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--shot);
+}
+.tile__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+
+/* заглушка для проектов без сайта */
+.tile__shot--empty {
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(135deg, var(--shot) 0 10px, transparent 10px 20px);
+}
+
+a.tile:hover .tile__shot { border-color: var(--line-hi); }
+a.tile:hover .tile__shot img { transform: scale(1.04); }
+a.tile:hover .tile__name { color: var(--accent); }
+
+/* адрес поверх обложки */
+.tile__domain {
   position: absolute;
-  top: 0;
-  right: 26px;
-  max-width: 62%;
-  padding: 10px 0;
-  font-size: 14.5px;
-  line-height: 1.55;
+  left: 8px;
+  bottom: 8px;
+  max-width: calc(100% - 16px);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #fff;
+  background: rgba(10, 12, 18, .62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  pointer-events: none;
 }
-.row__meta > * { pointer-events: auto; }
 
-.item > summary {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px 2px;
-  cursor: pointer;
-  list-style: none;
+.tile__badge {
+  padding: 3px 9px;
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: var(--dim);
+  background: var(--panel);
+}
+.tile__badge--right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #fff;
+  border-color: transparent;
+  background: rgba(10, 12, 18, .62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.tile__name {
+  display: block;
+  margin-top: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
   transition: color .15s ease;
 }
-.item > summary::-webkit-details-marker { display: none; }
-.item > summary:hover .item__name { color: var(--accent); }
-
-.dot {
-  flex: 0 0 auto;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--soon);
-}
-.dot--live { background: var(--live); }
-.dot--dev  { background: var(--dev); }
-
-.item__name { font-size: 14.5px; font-weight: 600; transition: color .15s ease; }
-
-/* домен виден сразу, в свёрнутой строке */
-.item__domain {
-  position: relative;
-  font-family: var(--mono);
-  font-size: 12px;
+.tile__desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.45;
   color: var(--dim);
-  border-bottom: 1px solid transparent;
-  transition: color .15s ease, border-color .15s ease;
-}
-/* палец толще ссылки: расширяем область нажатия, не трогая вёрстку */
-a.item__domain::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  bottom: -12px;
-  left: -8px;
-  right: -8px;
-}
-a.item__domain:hover { color: var(--accent); border-bottom-color: currentColor; }
-a.item__domain:active { color: var(--accent); }
-.item__domain--off { opacity: .65; }
-
-.item__state {
-  margin-left: 8px;
-  font-size: 11px;
-  color: var(--dim);
-  opacity: .8;
 }
 
-/* стрелка-раскрытие */
-.item > summary::after {
-  content: "";
-  flex: 0 0 auto;
-  width: 6px;
-  height: 6px;
-  margin-left: auto;
-  margin-right: 3px;
-  border-right: 1.4px solid var(--dim);
-  border-bottom: 1.4px solid var(--dim);
-  transform: rotate(-45deg);
-  transition: transform .2s ease;
-}
-.item[open] > summary::after { transform: rotate(45deg); }
-
-.item__body {
-  padding: 0 2px 14px 21px;
-  font-size: 13.5px;
-  color: var(--muted);
-  animation: fade .22s ease;
-}
-@keyframes fade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+.tile--off .tile__name { color: var(--muted); }
 
 /* ---------- Кошелёк ---------- */
 .wallet {
   display: flex;
   align-items: center;
   gap: 8px;
+  max-width: 420px;
   padding: 8px 8px 8px 11px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -256,7 +249,7 @@ a.item__domain:active { color: var(--accent); }
   font-size: 11.5px;
   color: var(--text);
   cursor: pointer;
-  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+  transition: border-color .15s ease, color .15s ease;
 }
 .copy:hover { border-color: var(--accent); color: var(--accent); }
 .copy.is-done { border-color: var(--live); color: var(--live); }
@@ -274,7 +267,7 @@ a.item__domain:active { color: var(--accent); }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 26px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
   font-size: 12.5px;
@@ -299,6 +292,7 @@ a.item__domain:active { color: var(--accent); }
   background: var(--panel);
   color: var(--dim);
   cursor: pointer;
+  backdrop-filter: blur(8px);
   transition: color .15s ease, border-color .15s ease;
 }
 .theme:hover { color: var(--text); border-color: var(--line-hi); }
@@ -311,18 +305,18 @@ a.item__domain:active { color: var(--accent); }
 [data-theme="light"] .icon--moon { display: none; }
 
 /* ---------- Адаптив ---------- */
-@media (max-width: 460px) {
-  body { padding: 16px 12px; align-items: flex-start; }
-  .card { padding: 20px 18px 16px; border-radius: 15px; }
+@media (max-width: 620px) {
+  body { padding: 16px 12px 28px; }
+  .card { padding: 20px 16px 16px; border-radius: 15px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; }
+  .tile__desc { -webkit-line-clamp: 2; }
   .me { gap: 12px; }
   .avatar { width: 52px; height: 52px; }
   .foot { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 
-/* на совсем узких экранах прячем текст статуса — домен остаётся */
-@media (max-width: 400px) {
-  .item > summary { gap: 7px; }
-  .item__state { display: none; }
+@media (max-width: 380px) {
+  .grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -32,17 +32,6 @@
     });
   }
 
-  /* ---------- Аккордеон: открыт только один пункт ---------- */
-  var items = Array.prototype.slice.call(document.querySelectorAll('.item'));
-  items.forEach(function (item) {
-    item.addEventListener('toggle', function () {
-      if (!item.open) return;
-      items.forEach(function (other) {
-        if (other !== item) other.open = false;
-      });
-    });
-  });
-
   /* ---------- Копирование кошелька ---------- */
   var copyBtn = document.getElementById('copyBtn');
   var status = document.getElementById('copyStatus');

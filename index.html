@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Артём Соколов — AI-разработчик</title>
-<meta name="description" content="Артём Соколов, 22 года, Новосибирск. AI-разработчик: делаю игры и сервисы с помощью ИИ. foothub.ru, burmaldino.ru, sexpose.ru, artemsugar.ru.">
+<meta name="description" content="Артём Соколов, 22 года, Новосибирск. AI-разработчик: делаю игры и сервисы с помощью ИИ. Обский Рывок, foothub.ru, burmaldino.ru, sexpose.ru, artemsugar.ru.">
 <meta name="author" content="Артём Соколов">
 <meta name="theme-color" content="#0b0d12">
 <link rel="canonical" href="https://artemsokolovdev.ru/">
@@ -43,7 +43,7 @@
 
 <main class="card">
 
-  <!-- ============ ШАПКА ВИЗИТКИ ============ -->
+  <!-- ============ ШАПКА ============ -->
   <header class="me">
     <div class="avatar avatar--empty" id="avatar">
       <img class="avatar__img" src="assets/img/artem.jpg" alt="Артём Соколов" width="88" height="88">
@@ -59,127 +59,101 @@
   <!-- ============ ИГРЫ ============ -->
   <section class="block">
     <h2 class="label">Игры</h2>
+    <div class="grid">
 
-    <!--
-    ШАБЛОН — скопируйте и заполните, когда игра выйдет.
-    Ссылка на домен намеренно лежит СНАРУЖИ <details>: внутри <summary>
-    Safari на iOS не даёт ей открыться, тап засчитывается как раскрытие блока.
+      <!--
+      ШАБЛОН ПЛИТКИ — скопируйте и заполните под новый проект.
+      Обложка: assets/img/projects/имя.jpg, 800x500 (соотношение 16:10).
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--live"></span>
-          <span class="item__name">Название</span>
-        </summary>
-        <div class="item__body"><p>Описание игры.</p></div>
-      </details>
-      <span class="row__meta">
-        <a class="item__domain" href="https://ДОМЕН" target="_blank" rel="noopener">домен.ru</a>
-      </span>
-    </div>
-    -->
+      <a class="tile" href="https://ДОМЕН" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/ИМЯ.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">домен.ru</span>
+        </span>
+        <span class="tile__name">Название</span>
+        <span class="tile__desc">Одна-две строки о проекте.</span>
+      </a>
+      -->
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--soon"></span>
-          <span class="item__name">Первая игра</span>
-        </summary>
-        <div class="item__body">
-          <p>Игра готовится к запуску на собственном домене.</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <!-- ЗАМЕНИТЕ: когда игра выйдет — раскомментируйте ссылку и удалите «скоро»
-        <a class="item__domain" href="https://ДОМЕН" target="_blank" rel="noopener">домен.ru</a> -->
-        <span class="item__state">скоро</span>
-      </span>
+      <a class="tile" href="https://obskiy-runner.vercel.app/" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/runner.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">obskiy-runner.vercel.app</span>
+        </span>
+        <span class="tile__name">Обский Рывок</span>
+        <span class="tile__desc">Бесконечный 3D-раннер по зимнему Новосибирску: проспект, набережная Оби и мост.</span>
+      </a>
+
+      <div class="tile tile--off">
+        <span class="tile__shot tile__shot--empty">
+          <span class="tile__badge">скоро</span>
+        </span>
+        <span class="tile__name">Первая игра</span>
+        <!-- ЗАМЕНИТЕ: когда игра выйдет — превратите этот блок в плитку по шаблону выше -->
+        <span class="tile__desc">Готовится к запуску на собственном домене.</span>
+      </div>
+
     </div>
   </section>
 
   <!-- ============ СЕРВИСЫ ============ -->
   <section class="block">
     <h2 class="label">Сервисы</h2>
+    <div class="grid">
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--live"></span>
-          <span class="item__name">FootHub</span>
-        </summary>
-        <div class="item__body">
-          <p>Бесплатные прогнозы на спорт каждый день. Данные собирает парсер, ролики 9:16 автоматически монтируются на мини-ПК Beelink SER5 MAX и уходят в TikTok, YouTube и Instagram. Telegram- и MAX-каналы ведутся на 90% автоматически.</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <a class="item__domain" href="https://foothub.ru" target="_blank" rel="noopener">foothub.ru</a>
-      </span>
-    </div>
+      <a class="tile" href="https://foothub.ru" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/foothub.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">foothub.ru</span>
+        </span>
+        <span class="tile__name">FootHub</span>
+        <span class="tile__desc">Бесплатные прогнозы на спорт каждый день. Ролики 9:16 и каналы собираются автоматически.</span>
+      </a>
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--live"></span>
-          <span class="item__name">Бурмалдино</span>
-        </summary>
-        <div class="item__body">
-          <p>Известный инфлюенсер в образе мага предсказывает исход матча по вашему запросу. Для любителей ставок и всех, кому нравится шоу вокруг спорта.</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <a class="item__domain" href="https://burmaldino.ru" target="_blank" rel="noopener">burmaldino.ru</a>
-      </span>
-    </div>
+      <a class="tile" href="https://burmaldino.ru" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/burmaldino.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">burmaldino.ru</span>
+        </span>
+        <span class="tile__name">Бурмалдино</span>
+        <span class="tile__desc">Инфлюенсер в образе мага предсказывает исход матча по вашему запросу.</span>
+      </a>
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--live"></span>
-          <span class="item__name">Sexpose</span>
-        </summary>
-        <div class="item__body">
-          <p>Одно нажатие — случайная поза из 50 вариантов. Простая механика, чтобы разнообразить отношения. 18+</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <a class="item__domain" href="https://sexpose.ru" target="_blank" rel="noopener">sexpose.ru</a>
-      </span>
-    </div>
+      <a class="tile" href="https://sexpose.ru" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/sexpose.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">sexpose.ru</span>
+          <span class="tile__badge tile__badge--right">18+</span>
+        </span>
+        <span class="tile__name">Sexpose</span>
+        <span class="tile__desc">Случайная поза для пар по одному нажатию — 206 вариантов с иллюстрациями.</span>
+      </a>
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--dev"></span>
-          <span class="item__name">ArtemSugar</span>
-        </summary>
-        <div class="item__body">
-          <p>Передача данных мониторинга глюкозы в облако и вывод на сайт — показатели под рукой у самого человека и у близких.</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <span class="item__domain item__domain--off">artemsugar.ru</span>
-        <span class="item__state">в разработке</span>
-      </span>
+      <div class="tile tile--off">
+        <span class="tile__shot tile__shot--empty">
+          <span class="tile__badge">в разработке</span>
+        </span>
+        <span class="tile__name">ArtemSugar</span>
+        <span class="tile__desc">Данные мониторинга глюкозы уходят в облако и выводятся на сайт — для себя и близких.</span>
+      </div>
+
     </div>
   </section>
 
   <!-- ============ РАЗНОЕ ============ -->
   <section class="block">
     <h2 class="label">Разное</h2>
+    <div class="grid">
 
-    <div class="row">
-      <details class="item">
-        <summary>
-          <span class="dot dot--live"></span>
-          <span class="item__name">Домофон</span>
-        </summary>
-        <div class="item__body">
-          <p>Симулятор подъездного домофона: живые звуки кнопок и гудки вызова, фон меняется вместе с временем суток и сезоном. Наберите правильный номер квартиры — там спрятана пасхалка.</p>
-        </div>
-      </details>
-      <span class="row__meta">
-        <a class="item__domain" href="https://domofon-one.vercel.app/" target="_blank" rel="noopener">domofon-one.vercel.app</a>
-      </span>
+      <a class="tile" href="https://domofon-one.vercel.app/" target="_blank" rel="noopener">
+        <span class="tile__shot">
+          <img src="assets/img/projects/domofon.jpg" alt="" width="800" height="500" loading="lazy">
+          <span class="tile__domain">domofon-one.vercel.app</span>
+        </span>
+        <span class="tile__name">Домофон</span>
+        <span class="tile__desc">Симулятор подъездного домофона со звуками кнопок и сезонным фоном. Внутри пасхалка.</span>
+      </a>
+
     </div>
   </section>
 
