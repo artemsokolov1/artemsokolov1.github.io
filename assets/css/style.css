@@ -74,7 +74,7 @@ img { display: block; max-width: 100%; }
 .avatar {
   position: relative;
   flex: 0 0 auto;
-  height: 86px;
+  height: 72px;
 }
 .avatar__img { height: 100%; width: auto; }
 .avatar__ph {
@@ -309,7 +309,7 @@ a.tile:hover .tile__name { color: var(--accent); }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; }
   .tile__desc { -webkit-line-clamp: 2; }
   .me { gap: 12px; }
-  .avatar { height: 70px; }
+  .avatar { height: 62px; }
   .foot { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 
