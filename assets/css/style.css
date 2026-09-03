@@ -70,20 +70,18 @@ img { display: block; max-width: 100%; }
 /* ---------- Шапка ---------- */
 .me { display: flex; align-items: center; gap: 15px; }
 
+/* Аватар — вырезанный стикер: без рамки и круга, обрезан вплотную по голове */
 .avatar {
   position: relative;
   flex: 0 0 auto;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid var(--line);
+  height: 86px;
 }
-.avatar__img { width: 100%; height: 100%; object-fit: cover; }
+.avatar__img { height: 100%; width: auto; }
 .avatar__ph {
   display: none;
-  position: absolute;
-  inset: 0;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
   align-items: center;
   justify-content: center;
   font-size: 17px;
@@ -311,7 +309,7 @@ a.tile:hover .tile__name { color: var(--accent); }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; }
   .tile__desc { -webkit-line-clamp: 2; }
   .me { gap: 12px; }
-  .avatar { width: 52px; height: 52px; }
+  .avatar { height: 70px; }
   .foot { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 
