@@ -12,8 +12,8 @@
 index.html               вся страница
 assets/css/style.css     стили, тёмная и светлая темы
 assets/js/main.js        тема, копирование кошелька
-assets/img/favicon.svg   иконка сайта
-assets/img/artem.jpg     фото профиля
+assets/img/favicon-32.png  иконка вкладки (+ favicon-180 для iOS)
+assets/img/avatar.png    аватар с прозрачным фоном
 assets/img/projects/     обложки проектов, 800x500 (16:10)
 .nojekyll                отключает Jekyll на GitHub Pages
 ```
