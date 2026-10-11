@@ -107,7 +107,6 @@ img { display: block; max-width: 100%; }
 .hero__face {
   height: 280px;
   width: auto;
-  filter: drop-shadow(0 26px 32px rgba(0,0,0,.16));
 }
 .hero h1 {
   margin-top: 32px;
