@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Артём Соколов — AI-разработчик</title>
 <meta name="description" content="Артём Соколов, 22 года, Новосибирск. AI-разработчик: делаю игры и сервисы с помощью ИИ. Игры в RuStore и на itch.io, burmaldino.ru, sexpose.ru, artemsugar.ru, vsezaebalo.ru.">
 <meta name="author" content="Артём Соколов">
-<meta name="theme-color" content="#0b0d12">
+<meta name="theme-color" content="#f3f3f1">
 <link rel="canonical" href="https://artemsokolovdev.ru/">
 
 <meta property="og:type" content="website">
@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 
 <script type="application/ld+json">
@@ -37,68 +37,61 @@
 </head>
 <body>
 
-<button class="theme" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
-  <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M5.2 5.2l1.3 1.3M17.5 17.5l1.3 1.3M2.6 12h1.8M19.6 12h1.8M5.2 18.8l1.3-1.3M17.5 6.5l1.3-1.3"/></svg>
-  <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
-</button>
+<main class="page">
 
-<main class="card">
+  <!-- ============ НАВИГАЦИЯ ============ -->
+  <nav class="nav" aria-label="Основная навигация">
+    <span class="nav__logo">artemsokolovdev</span>
+    <div class="nav__links">
+      <a class="nav__hide" href="#games">Игры</a>
+      <a class="nav__hide" href="#services">Сервисы</a>
+      <button class="theme" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+        <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M5.2 5.2l1.3 1.3M17.5 17.5l1.3 1.3M2.6 12h1.8M19.6 12h1.8M5.2 18.8l1.3-1.3M17.5 6.5l1.3-1.3"/></svg>
+        <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
+      </button>
+      <a class="nav__tg" href="https://t.me/i_d_09" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </nav>
 
   <!-- ============ ШАПКА ============ -->
-  <header class="me">
-    <div class="avatar avatar--empty" id="avatar">
-      <img class="avatar__img" src="assets/img/avatar.png" alt="Артём Соколов" width="228" height="340">
-      <span class="avatar__ph" aria-hidden="true">АС</span>
-    </div>
-    <div class="me__text">
-      <h1>Артём Соколов</h1>
-      <p class="me__role">AI-разработчик <span class="sep">·</span> 22 года <span class="sep">·</span> Новосибирск</p>
-      <p class="me__bio">Делаю игры и сервисы с помощью ИИ.</p>
-    </div>
+  <header class="hero">
+    <img class="hero__face" src="assets/img/face.png" alt="Артём Соколов" width="440" height="640">
+    <h1>Артём Соколов</h1>
+    <p>AI-разработчик · 22 года · Новосибирск. Делаю игры и сервисы с помощью ИИ.</p>
   </header>
 
-  <!-- ============ ИГРЫ ============ -->
-  <section class="block">
-    <h2 class="label">Игры</h2>
-    <div class="grid">
+  <!-- ============ ИГРЫ ============
+    ШАБЛОН ПЛИТКИ — скопируйте и заполните под новый проект.
+    Обложка: assets/img/projects/имя.jpg, 800x500 (16:10).
 
-      <!--
-      ШАБЛОН ПЛИТКИ — скопируйте и заполните под новый проект.
-      Обложка: assets/img/projects/имя.jpg, 800x500 (соотношение 16:10).
-
-      <a class="tile" href="https://ДОМЕН" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/ИМЯ.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">домен.ru</span>
-        </span>
-        <span class="tile__name">Название</span>
-        <span class="tile__desc">Одна-две строки о проекте.</span>
-      </a>
-      -->
+    <a class="tile" href="https://ДОМЕН" target="_blank" rel="noopener">
+      <span class="tile__shot"><img src="assets/img/projects/ИМЯ.jpg" alt="" width="800" height="500" loading="lazy"></span>
+      <span class="tile__row"><span class="tile__name">Название</span><span class="tile__tag">RuStore</span></span>
+      <span class="tile__desc">Одна-две строки о проекте.</span>
+    </a>
+  -->
+  <section class="section" id="games">
+    <div class="section__head">
+      <h2>Игры</h2>
+      <span class="section__count">03</span>
+    </div>
+    <div class="grid grid--games">
 
       <a class="tile" href="https://www.rustore.ru/catalog/app/ru.chekanka.football" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/chekanka.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">RuStore</span>
-        </span>
-        <span class="tile__name">Чеканка: футбольный мяч</span>
-        <span class="tile__desc">Набивай мяч пальцем, проходи 200 уровней и собирай стиль. Android.</span>
+        <span class="tile__shot"><img src="assets/img/projects/chekanka.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Чеканка</span><span class="tile__tag">RuStore</span></span>
+        <span class="tile__desc">Набивай мяч пальцем, проходи 200 уровней и собирай стиль.</span>
       </a>
 
       <a class="tile" href="https://www.rustore.ru/catalog/app/ru.katanie.vatrushka" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/vatrushka.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">RuStore</span>
-        </span>
-        <span class="tile__name">Катание на ватрушке</span>
-        <span class="tile__desc">Снежные спуски, развилки и ракеты: рули, улучшай ватрушку и добирайся до финиша. Android.</span>
+        <span class="tile__shot"><img src="assets/img/projects/vatrushka.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Катание на ватрушке</span><span class="tile__tag">RuStore</span></span>
+        <span class="tile__desc">Снежные спуски, развилки и ракеты.</span>
       </a>
 
       <a class="tile" href="https://artemsokolov1.itch.io/strazh-vorot" target="_blank" rel="noopener">
-        <span class="tile__shot tile__shot--empty">
-          <span class="tile__domain">itch.io</span>
-        </span>
-        <span class="tile__name">Страж ворот</span>
+        <span class="tile__shot"><img src="assets/img/projects/strazh.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Страж ворот</span><span class="tile__tag">itch.io</span></span>
         <span class="tile__desc">Игра на itch.io.</span>
       </a>
 
@@ -106,75 +99,63 @@
   </section>
 
   <!-- ============ СЕРВИСЫ ============ -->
-  <section class="block">
-    <h2 class="label">Сервисы</h2>
-    <div class="grid">
+  <section class="section" id="services">
+    <div class="section__head">
+      <h2>Сервисы</h2>
+      <span class="section__count">05</span>
+    </div>
+    <div class="grid grid--services">
 
       <a class="tile" href="https://burmaldino.ru" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/burmaldino.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">burmaldino.ru</span>
-        </span>
-        <span class="tile__name">Бурмалдино</span>
-        <span class="tile__desc">Инфлюенсер в образе мага предсказывает исход матча по вашему запросу.</span>
+        <span class="tile__shot"><img src="assets/img/projects/burmaldino.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Бурмалдино</span><span class="tile__domain">burmaldino.ru ↗</span></span>
+        <span class="tile__desc">Инфлюенсер в образе мага предсказывает исход матча.</span>
       </a>
 
       <a class="tile" href="https://sexpose.ru" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/sexpose.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">sexpose.ru</span>
-          <span class="tile__badge tile__badge--right">18+</span>
-        </span>
-        <span class="tile__name">Sexpose</span>
-        <span class="tile__desc">Случайная поза для пар по одному нажатию — 206 вариантов с иллюстрациями.</span>
+        <span class="tile__shot"><img src="assets/img/projects/sexpose.jpg" alt="" width="800" height="500" loading="lazy"><span class="tile__badge">18+</span></span>
+        <span class="tile__row"><span class="tile__name">Sexpose</span><span class="tile__domain">sexpose.ru ↗</span></span>
+        <span class="tile__desc">Случайная поза для пар по одному нажатию.</span>
       </a>
 
       <a class="tile" href="https://artemsugar.ru" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/artemsugar.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">artemsugar.ru</span>
-        </span>
-        <span class="tile__name">ArtemSugar</span>
+        <span class="tile__shot"><img src="assets/img/projects/artemsugar.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">ArtemSugar</span><span class="tile__domain">artemsugar.ru ↗</span></span>
         <span class="tile__desc">Сахар Артёма</span>
       </a>
 
       <a class="tile" href="https://domofon-one.vercel.app/" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/domofon.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">domofon-one.vercel.app</span>
-        </span>
-        <span class="tile__name">Домофон</span>
+        <span class="tile__shot"><img src="assets/img/projects/domofon.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Домофон</span><span class="tile__domain">vercel.app ↗</span></span>
         <span class="tile__desc">Симулятор домофона</span>
       </a>
 
       <a class="tile" href="https://vsezaebalo.ru" target="_blank" rel="noopener">
-        <span class="tile__shot">
-          <img src="assets/img/projects/vsezaebalo.jpg" alt="" width="800" height="500" loading="lazy">
-          <span class="tile__domain">vsezaebalo.ru</span>
-        </span>
-        <span class="tile__name">Всё заебало</span>
-        <span class="tile__desc">🤮</span>
+        <span class="tile__shot"><img src="assets/img/projects/vsezaebalo.jpg" alt="" width="800" height="500" loading="lazy"></span>
+        <span class="tile__row"><span class="tile__name">Всё заебало</span><span class="tile__domain">vsezaebalo.ru ↗</span></span>
+        <span class="tile__desc">Для тяжёлых дней</span>
       </a>
 
     </div>
   </section>
 
   <!-- ============ ДОНАТ ============ -->
-  <section class="block">
-    <h2 class="label">Поддержать <span class="label__note">USDT · TRC-20</span></h2>
-    <div class="wallet">
+  <section class="donate">
+    <div>
+      <h2>Поддержать проекты</h2>
+      <span class="donate__note">USDT · TRC-20</span>
       <code id="walletAddr">TPE7DFnV6TxAL4p9ACQAHKsMMcPRSzRXws</code>
-      <button class="copy" id="copyBtn" type="button" data-copy="TPE7DFnV6TxAL4p9ACQAHKsMMcPRSzRXws" aria-label="Скопировать адрес кошелька">копировать</button>
     </div>
-    <p class="status" id="copyStatus" role="status" aria-live="polite"></p>
+    <div class="donate__side">
+      <button class="copy" id="copyBtn" type="button" data-copy="TPE7DFnV6TxAL4p9ACQAHKsMMcPRSzRXws" aria-label="Скопировать адрес кошелька">Скопировать адрес</button>
+      <p class="status" id="copyStatus" role="status" aria-live="polite"></p>
+    </div>
   </section>
 
-  <!-- ============ КОНТАКТЫ ============ -->
+  <!-- ============ ПОДВАЛ ============ -->
   <footer class="foot">
-    <nav class="links" aria-label="Контакты">
-      <a href="https://t.me/i_d_09" target="_blank" rel="noopener">Telegram</a>
-    </nav>
-    <span class="foot__year">© <span id="year">2026</span></span>
+    <a href="https://t.me/i_d_09" target="_blank" rel="noopener">Telegram ↗</a>
+    <span>© <span id="year">2026</span> Артём Соколов</span>
   </footer>
 
 </main>

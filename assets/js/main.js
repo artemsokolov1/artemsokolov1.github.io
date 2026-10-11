@@ -13,15 +13,15 @@
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', theme === 'light' ? '#f6f7fa' : '#0b0d12');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#f3f3f1' : '#0f0f11');
   }
 
   var saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
   if (saved) {
     applyTheme(saved);
-  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    applyTheme('light');
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    applyTheme('dark');
   }
 
   if (toggle) {
@@ -53,10 +53,10 @@
   function showCopied(ok) {
     if (status) status.textContent = ok ? 'Адрес скопирован' : 'Не вышло — выделите адрес вручную';
     if (!copyBtn) return;
-    copyBtn.textContent = ok ? 'готово' : 'копировать';
+    copyBtn.textContent = ok ? 'Скопировано' : 'Скопировать адрес';
     copyBtn.classList.toggle('is-done', ok);
     setTimeout(function () {
-      copyBtn.textContent = 'копировать';
+      copyBtn.textContent = 'Скопировать адрес';
       copyBtn.classList.remove('is-done');
       if (status) status.textContent = '';
     }, 2400);
