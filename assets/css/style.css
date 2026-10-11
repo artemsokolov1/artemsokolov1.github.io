@@ -259,21 +259,6 @@ img { display: block; max-width: 100%; }
   .foot { margin-top: -32px; font-size: 13px; }
 }
 
-/* ---------- Шапка с качком ---------- */
-.hero--muscle { flex-direction: row; justify-content: center; align-items: center; gap: 56px; text-align: left; margin-top: -8px; }
-.hero__muscle { height: 460px; width: auto; filter: drop-shadow(0 24px 30px rgba(0,0,0,.16)); }
-.hero--muscle h1 { margin-top: 0; }
-@media (max-width: 900px) {
-  .hero--muscle { gap: 32px; }
-  .hero__muscle { height: 380px; }
-}
-@media (max-width: 600px) {
-  .hero--muscle { gap: 12px; margin-top: 0; }
-  .hero__muscle { height: 250px; }
-  .hero--muscle h1 { font-size: 38px; }
-  .hero--muscle p { margin-top: 12px; font-size: 13px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
