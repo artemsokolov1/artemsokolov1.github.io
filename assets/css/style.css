@@ -103,14 +103,14 @@ img { display: block; max-width: 100%; }
 [data-theme="light"] .icon--moon { display: none; }
 
 /* ---------- Шапка ---------- */
-.hero { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: -40px; }
+.hero { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: -16px; }
 .hero__face {
-  height: 440px;
+  height: 280px;
   width: auto;
   filter: drop-shadow(0 26px 32px rgba(0,0,0,.16));
 }
 .hero h1 {
-  margin-top: 40px;
+  margin-top: 32px;
   font-size: 112px;
   font-weight: 800;
   line-height: .95;
@@ -221,7 +221,7 @@ img { display: block; max-width: 100%; }
 /* ---------- Адаптив ---------- */
 @media (max-width: 900px) {
   .page { gap: 72px; }
-  .hero__face { height: 360px; }
+  .hero__face { height: 240px; }
   .hero h1 { font-size: 80px; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -229,8 +229,8 @@ img { display: block; max-width: 100%; }
 @media (max-width: 600px) {
   .page { padding: 16px 16px 40px; gap: 64px; }
   .nav__links .nav__hide { display: none; }
-  .hero { margin-top: -24px; }
-  .hero__face { height: 300px; }
+  .hero { margin-top: -8px; }
+  .hero__face { height: 200px; }
   .hero h1 { margin-top: 28px; font-size: 52px; }
   .hero p { margin-top: 16px; font-size: 16px; }
   .section { gap: 20px; }
@@ -257,6 +257,21 @@ img { display: block; max-width: 100%; }
   .donate__side { align-items: stretch; }
   .copy { height: 50px; }
   .foot { margin-top: -32px; font-size: 13px; }
+}
+
+/* ---------- Шапка с качком ---------- */
+.hero--muscle { flex-direction: row; justify-content: center; align-items: center; gap: 56px; text-align: left; margin-top: -8px; }
+.hero__muscle { height: 460px; width: auto; filter: drop-shadow(0 24px 30px rgba(0,0,0,.16)); }
+.hero--muscle h1 { margin-top: 0; }
+@media (max-width: 900px) {
+  .hero--muscle { gap: 32px; }
+  .hero__muscle { height: 380px; }
+}
+@media (max-width: 600px) {
+  .hero--muscle { gap: 12px; margin-top: 0; }
+  .hero__muscle { height: 250px; }
+  .hero--muscle h1 { font-size: 38px; }
+  .hero--muscle p { margin-top: 12px; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
