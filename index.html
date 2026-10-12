@@ -7,6 +7,13 @@
 <meta name="description" content="Артём Соколов, 22 года, Новосибирск. AI-разработчик: делаю игры и сервисы с помощью ИИ. Игры в RuStore и на itch.io, burmaldino.ru, sexpose.ru, artemsugar.ru, vsezaebalo.ru.">
 <meta name="author" content="Артём Соколов">
 <meta name="theme-color" content="#f3f3f1">
+<script>
+try {
+  var savedTheme = localStorage.getItem('as-theme');
+  document.documentElement.dataset.theme = ['light', 'dark', 'money'].includes(savedTheme)
+    ? savedTheme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+} catch (e) {}
+</script>
 <link rel="canonical" href="https://artemsokolovdev.ru/">
 
 <meta property="og:type" content="website">
@@ -17,8 +24,8 @@
 <meta property="og:image" content="https://artemsokolovdev.ru/assets/img/artem.jpg">
 <meta name="twitter:card" content="summary">
 
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
-<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-face-32.png">
+<link rel="apple-touch-icon" href="assets/img/favicon-face-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -37,6 +44,8 @@
 </head>
 <body>
 
+<canvas class="money-rain" id="moneyRain" aria-hidden="true" hidden></canvas>
+
 <main class="page">
 
   <!-- ============ НАВИГАЦИЯ ============ -->
@@ -45,17 +54,33 @@
     <div class="nav__links">
       <a class="nav__hide" href="#games">Игры</a>
       <a class="nav__hide" href="#services">Сервисы</a>
-      <button class="theme" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
-        <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M5.2 5.2l1.3 1.3M17.5 17.5l1.3 1.3M2.6 12h1.8M19.6 12h1.8M5.2 18.8l1.3-1.3M17.5 6.5l1.3-1.3"/></svg>
-        <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
-      </button>
+        <button class="theme" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+          <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M5.2 5.2l1.3 1.3M17.5 17.5l1.3 1.3M2.6 12h1.8M19.6 12h1.8M5.2 18.8l1.3-1.3M17.5 6.5l1.3-1.3"/></svg>
+          <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
+          <svg class="icon icon--money" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M5 9v6M19 9v6"/></svg>
+        </button>
       <a class="nav__tg" href="https://t.me/i_d_09" target="_blank" rel="noopener">Telegram</a>
     </div>
   </nav>
 
   <!-- ============ ШАПКА ============ -->
   <header class="hero">
-    <img class="hero__face" src="assets/img/face.png" alt="Артём Соколов" width="440" height="640">
+    <div class="portrait" id="portrait" role="slider" tabindex="0" aria-label="Поворот портрета Артёма Соколова" aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0" aria-valuetext="Лицевая сторона, 0 градусов" aria-describedby="portraitKeyboard">
+      <div class="portrait__rotor" id="portraitRotor">
+        <div class="portrait__side portrait__side--front">
+          <img class="hero__face hero__face--regular" src="assets/img/face.png" alt="" width="439" height="640" draggable="false">
+          <img class="hero__face hero__face--money" src="assets/img/face-money-still.png" alt="" width="384" height="560" draggable="false" hidden>
+        </div>
+        <div class="portrait__side portrait__side--back" aria-hidden="true">
+          <img class="hero__face hero__face--regular" src="assets/img/face.png" alt="" width="439" height="640" draggable="false">
+          <img class="hero__face hero__face--money hero__face--money-back" src="assets/img/face-money-still.png" alt="" width="384" height="560" draggable="false" hidden>
+        </div>
+      </div>
+    </div>
+    <div class="portrait__tools">
+      <button class="portrait__reset" id="portraitReset" type="button" aria-label="Сбросить поворот портрета" title="Сбросить поворот"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 2 8M4 4v6h6"/></svg></button>
+    </div>
+    <span class="sr-only" id="portraitKeyboard">Стрелки влево и вправо поворачивают портрет. Стрелки вверх и вниз наклоняют его. Home возвращает лицевую сторону.</span>
     <h1>Артём Соколов</h1>
     <p>AI-разработчик · 22 года · Новосибирск. Делаю игры и сервисы с помощью ИИ.</p>
   </header>
@@ -91,14 +116,14 @@
 
       <a class="tile" href="https://artemsokolov1.itch.io/strazh-vorot" target="_blank" rel="noopener">
         <span class="tile__shot"><img src="assets/img/projects/strazh.jpg" alt="" width="800" height="500" loading="lazy"></span>
-        <span class="tile__row"><span class="tile__name">Страж ворот</span><span class="tile__tag">itch.io</span></span>
-        <span class="tile__desc">Игра на itch.io (открывается только с VPN).</span>
+        <span class="tile__row"><span class="tile__name">Страж ворот</span><span class="tile__tag">itch.io · ПК</span></span>
+        <span class="tile__desc">Работает только на ПК. Для открытия itch.io нужен VPN.</span>
       </a>
 
       <a class="tile" href="https://artemsokolov1.itch.io/harchok" target="_blank" rel="noopener">
         <span class="tile__shot"><img src="assets/img/projects/harchok.jpg" alt="" width="800" height="500" loading="lazy"></span>
-        <span class="tile__row"><span class="tile__name">Харчок</span><span class="tile__tag">itch.io</span></span>
-        <span class="tile__desc">Игра на itch.io (открывается только с VPN).</span>
+        <span class="tile__row"><span class="tile__name">Харчок</span><span class="tile__tag">itch.io · ПК</span></span>
+        <span class="tile__desc">Работает только на ПК. Для открытия itch.io нужен VPN.</span>
       </a>
 
     </div>
