@@ -90,6 +90,8 @@
   /* ---------- Вращающийся плоский портрет ---------- */
   var portrait = document.getElementById('portrait');
   var rotor = document.getElementById('portraitRotor');
+  var portraitFront = document.querySelector('.portrait__side--front');
+  var portraitBack = document.querySelector('.portrait__side--back');
   var reset = document.getElementById('portraitReset');
   var yaw = 0;
   var pitch = 0;
@@ -98,8 +100,10 @@
   function renderPortrait() {
     rotor.style.transform = 'rotateX(' + pitch + 'deg) rotateY(' + yaw + 'deg)';
     var angle = Math.round(((yaw + 180) % 360 + 360) % 360 - 180);
-    var verticalAngle = ((pitch + 180) % 360 + 360) % 360 - 180;
-    var front = Math.cos(angle * Math.PI / 180) * Math.cos(verticalAngle * Math.PI / 180) >= 0;
+    var front = Math.cos(yaw * Math.PI / 180) * Math.cos(pitch * Math.PI / 180) >= 0;
+    // Hide the far side explicitly: some GPU compositors paint filtered backfaces.
+    portraitFront.hidden = !front;
+    portraitBack.hidden = front;
     var side = front ? 'Лицевая сторона' : 'Обратная сторона';
     portrait.setAttribute('aria-valuenow', String(angle));
     portrait.setAttribute('aria-valuetext', side + ', ' + angle + ' градусов, наклон ' + Math.round(pitch) + ' градусов');
@@ -112,6 +116,7 @@
   }
 
   if (portrait && rotor) {
+    renderPortrait();
     portrait.addEventListener('pointerdown', function (event) {
       if (!event.isPrimary || event.button !== 0) return;
       drag = { id: event.pointerId, x: event.clientX, y: event.clientY, yaw: yaw, pitch: pitch };

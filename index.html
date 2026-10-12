@@ -26,11 +26,12 @@ try {
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-face-32.png">
 <link rel="apple-touch-icon" href="assets/img/favicon-face-180.png">
+<link rel="preload" as="image" type="image/webp" href="assets/img/portrait.webp" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/img/face-money.webp" fetchpriority="low">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=money-performance-2">
+<link rel="stylesheet" href="assets/css/style.css?v=portrait-render-3">
 
 <script type="application/ld+json">
 {
@@ -69,12 +70,12 @@ try {
     <div class="portrait" id="portrait" role="slider" tabindex="0" aria-label="Поворот портрета Артёма Соколова" aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0" aria-valuetext="Лицевая сторона, 0 градусов" aria-describedby="portraitKeyboard">
       <div class="portrait__rotor" id="portraitRotor">
         <div class="portrait__side portrait__side--front">
-          <img class="hero__face hero__face--regular" src="assets/img/face.png" alt="" width="439" height="640" draggable="false">
+          <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync" fetchpriority="high">
           <img class="hero__face hero__face--money hero__face--money-still" src="assets/img/face-money-still.webp" alt="" width="384" height="560" draggable="false" fetchpriority="high" hidden>
           <img class="hero__face hero__face--money hero__face--animation" src="assets/img/face-money.webp" alt="" width="288" height="420" draggable="false" decoding="async" fetchpriority="low" hidden>
         </div>
-        <div class="portrait__side portrait__side--back" aria-hidden="true">
-          <img class="hero__face hero__face--regular" src="assets/img/face.png" alt="" width="439" height="640" draggable="false">
+        <div class="portrait__side portrait__side--back" aria-hidden="true" hidden>
+          <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync">
           <img class="hero__face hero__face--money hero__face--money-back" src="assets/img/face-money-still.webp" alt="" width="384" height="560" draggable="false" hidden>
         </div>
       </div>
@@ -193,6 +194,6 @@ try {
 
 </main>
 
-<script src="assets/js/main.js?v=money-performance-2"></script>
+<script src="assets/js/main.js?v=portrait-render-3"></script>
 </body>
 </html>
