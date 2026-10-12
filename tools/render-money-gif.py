@@ -190,6 +190,18 @@ def main():
             ], check=True)
     finally:
         server.shutdown()
+    # Smaller browser assets retain the GIF as a standalone download.
+    for source, target, filters, quality in [
+        ("face-money.gif", "face-money.webp", ["-vf", "scale=288:420", "-loop", "0"], "80"),
+        ("face-money-still.png", "face-money-still.webp", [], "86"),
+        ("money-bill.png", "money-bill.webp", ["-vf", "scale=240:-1"], "86")
+    ]:
+        subprocess.run([
+            ffmpeg, "-hide_banner", "-loglevel", "error", "-y",
+            "-i", str(ASSETS / source), *filters,
+            "-c:v", "libwebp_anim" if source.endswith(".gif") else "libwebp",
+            "-quality", quality, "-compression_level", "6", str(ASSETS / target)
+        ], check=True)
     gif = ASSETS / "face-money.gif"
     print(f"GIF: {gif} ({gif.stat().st_size:,} bytes, {FRAMES} frames, {FPS} fps)")
     print(f"Still: {ASSETS / 'face-money-still.png'}")

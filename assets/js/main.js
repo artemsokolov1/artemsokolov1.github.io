@@ -14,15 +14,40 @@
   var themeColors = { light: '#f3f3f1', dark: '#0f0f11', money: '#081c15' };
   var regularFaces = document.querySelectorAll('.hero__face--regular');
   var moneyFaces = document.querySelectorAll('.hero__face--money');
-  var moneyAnimation = document.querySelector('.portrait__side--front .hero__face--money');
+  var moneyAnimation = document.querySelector('.hero__face--animation');
+  var moneyStill = document.querySelector('.hero__face--money-still');
+  var animationReady = false;
+  var portraitVisible = true;
   var motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   var moneyEffects = createMoneyEffects();
 
   function syncMoneyPortrait() {
     if (!moneyAnimation) return;
-    var animated = root.getAttribute('data-theme') === 'money' && !motionPreference.matches && !document.hidden;
-    var src = animated ? 'assets/img/face-money.gif' : 'assets/img/face-money-still.png';
-    if (moneyAnimation.getAttribute('src') !== src) moneyAnimation.src = src;
+    var animated = animationReady && portraitVisible && root.getAttribute('data-theme') === 'money' && !motionPreference.matches && !document.hidden;
+    moneyAnimation.hidden = !animated;
+    if (moneyStill) moneyStill.hidden = root.getAttribute('data-theme') !== 'money' || animated;
+  }
+
+  function prepareMoneyPortrait() {
+    if (!moneyAnimation || !moneyAnimation.complete || !moneyAnimation.naturalWidth) return;
+    var decode = moneyAnimation.decode ? moneyAnimation.decode() : Promise.resolve();
+    decode.then(function () {
+      animationReady = true;
+      syncMoneyPortrait();
+    }, function () {});
+  }
+
+  if (moneyAnimation) {
+    moneyAnimation.addEventListener('load', prepareMoneyPortrait);
+    prepareMoneyPortrait();
+  }
+  var observedPortrait = document.getElementById('portrait');
+  if (observedPortrait && window.IntersectionObserver) {
+    var portraitObserver = new IntersectionObserver(function (entries) {
+      portraitVisible = entries[0].isIntersecting;
+      syncMoneyPortrait();
+    });
+    portraitObserver.observe(observedPortrait);
   }
 
   motionPreference.addEventListener('change', syncMoneyPortrait);
@@ -137,6 +162,9 @@
     var lastTime = 0;
     var width = 0;
     var height = 0;
+    var scale = 1;
+    var resizeFrame = 0;
+    var headGeometry = null;
     var particles = [];
     var eyeParticles = [];
     var eyeClock = 0;
@@ -184,7 +212,7 @@
         ink.drawImage(note, 0, 0, bill.width, bill.height);
         if (enabled && motion.matches) draw(0);
       };
-      note.src = 'assets/img/money-bill.png';
+      note.src = 'assets/img/money-bill.webp';
     }
 
     function makeParticle(initial) {
@@ -201,31 +229,45 @@
       };
     }
 
+    function cacheHeadGeometry() {
+      if (!head) return;
+      var bounds = head.getBoundingClientRect();
+      headGeometry = {
+        left: bounds.left + window.scrollX,
+        top: bounds.top + window.scrollY,
+        width: bounds.width,
+        height: bounds.height
+      };
+    }
+
     function eyeOrigins() {
-      if (!head) return null;
+      if (!headGeometry) return null;
       var yAngle = (yaw || 0) * Math.PI / 180;
       var xAngle = (pitch || 0) * Math.PI / 180;
+      var cosY = Math.cos(yAngle), sinY = Math.sin(yAngle);
+      var cosX = Math.cos(xAngle), sinX = Math.sin(xAngle);
       // Stop emitting when the silhouette is facing the viewer or the face is edge-on.
-      if (Math.cos(yAngle) * Math.cos(xAngle) < .2) return null;
-      var bounds = head.getBoundingClientRect();
-      if (bounds.bottom < 0 || bounds.top > height) return null;
+      if (cosY * cosX < .2) return null;
+      var top = headGeometry.top - window.scrollY;
+      if (top + headGeometry.height < 0 || top > window.innerHeight) return null;
       // Project the eye centers through the same rotations and perspective as the portrait.
       return [.31, .69].map(function (position) {
-        var x = (position - .5) * bounds.width;
-        var y = (.41 - .5) * bounds.height;
-        var rotatedX = x * Math.cos(yAngle) + .5 * Math.sin(yAngle);
-        var rotatedZ = -x * Math.sin(yAngle) + .5 * Math.cos(yAngle);
-        var rotatedY = y * Math.cos(xAngle) - rotatedZ * Math.sin(xAngle);
-        var depth = y * Math.sin(xAngle) + rotatedZ * Math.cos(xAngle);
+        var x = (position - .5) * headGeometry.width;
+        var y = (.41 - .5) * headGeometry.height;
+        var rotatedX = x * cosY + .5 * sinY;
+        var rotatedZ = -x * sinY + .5 * cosY;
+        var rotatedY = y * cosX - rotatedZ * sinX;
+        var depth = y * sinX + rotatedZ * cosX;
         var perspective = 850 / (850 - depth);
         return {
-          x: bounds.left + bounds.width / 2 + rotatedX * perspective,
-          y: bounds.top + bounds.height / 2 + rotatedY * perspective
+          x: headGeometry.left - window.scrollX + headGeometry.width / 2 + rotatedX * perspective,
+          y: top + headGeometry.height / 2 + rotatedY * perspective
         };
       });
     }
 
     function emitFromEyes(origins) {
+      if (eyeParticles.length >= (width < 600 ? 32 : 44)) return;
       origins.forEach(function (origin, index) {
         eyeParticles.push({
           x: origin.x,
@@ -247,33 +289,54 @@
       var fromEye = typeof particle.age === 'number';
       var fade = fromEye ? Math.min(1, particle.age * 14, (4 - particle.age) * 2) : 1;
       var size = particle.size * (fromEye ? Math.min(1, .45 + particle.age * 7) : 1);
-      ctx.save();
-      ctx.globalAlpha = particle.opacity * Math.max(0, fade);
-      ctx.translate(particle.x + Math.sin(particle.phase) * (fromEye ? 3 : 16), particle.y);
-      ctx.rotate(particle.angle);
+      var cos = Math.cos(particle.angle), sin = Math.sin(particle.angle);
       var flutter = .65 + Math.abs(Math.cos(particle.phase)) * .35;
-      ctx.scale(1, flutter);
+      ctx.globalAlpha = particle.opacity * Math.max(0, fade);
+      ctx.setTransform(scale * cos, scale * sin, -scale * sin * flutter, scale * cos * flutter,
+        scale * (particle.x + Math.sin(particle.phase) * (fromEye ? 3 : 16)), scale * particle.y);
       ctx.drawImage(bill, -size / 2, -size * .24, size, size * .48);
-      ctx.restore();
     }
 
     function resize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      particles = Array.from({ length: width < 600 ? 24 : 44 }, function () { return makeParticle(true); });
-      eyeParticles = [];
-      eyeClock = 0;
-      lastScroll = window.scrollY;
+      var bounds = canvas.getBoundingClientRect();
+      var nextWidth = Math.round(bounds.width), nextHeight = Math.round(bounds.height);
+      var nextScale = Math.min(window.devicePixelRatio || 1, nextWidth < 600 ? 1.25 : 1.5);
+      if (width === nextWidth && height === nextHeight && scale === nextScale) return;
+      var oldWidth = width;
+      width = nextWidth;
+      height = nextHeight;
+      scale = nextScale;
+      var targetWidth = Math.round(width * scale), targetHeight = Math.round(height * scale);
+      if (canvas.width !== targetWidth) canvas.width = targetWidth;
+      if (canvas.height !== targetHeight) canvas.height = targetHeight;
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      var count = width < 600 ? 20 : 36;
+      if (!oldWidth) {
+        particles = Array.from({ length: count }, function () { return makeParticle(true); });
+        lastScroll = window.scrollY;
+      } else if (oldWidth !== width) {
+        particles.forEach(function (particle) { particle.x *= width / oldWidth; });
+      }
+      particles.length = Math.min(particles.length, count);
+      while (particles.length < count) particles.push(makeParticle(true));
+      cacheHeadGeometry();
       if (enabled) draw(0);
     }
 
+    function scheduleResize() {
+      if (!enabled || resizeFrame) return;
+      resizeFrame = window.requestAnimationFrame(function () {
+        resizeFrame = 0;
+        if (enabled) resize();
+      });
+    }
+
     function draw(delta) {
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      ctx.globalAlpha = 1;
       ctx.clearRect(0, 0, width, height);
-      particles.forEach(function (particle, index) {
+      for (var index = 0; index < particles.length; index++) {
+        var particle = particles[index];
         particle.y += particle.speed * delta;
         particle.x += particle.drift * delta;
         particle.angle += particle.spin * delta;
@@ -282,34 +345,39 @@
           particle = particles[index] = makeParticle(false);
         }
         drawBill(particle);
-      });
+      }
 
       var scrollChange = window.scrollY - lastScroll;
       lastScroll = window.scrollY;
-      eyeParticles = eyeParticles.filter(function (particle) {
+      var remaining = 0;
+      for (var eyeIndex = 0; eyeIndex < eyeParticles.length; eyeIndex++) {
+        var particle = eyeParticles[eyeIndex];
         particle.age += delta;
         particle.y += particle.speed * delta - scrollChange;
         particle.speed += particle.gravity * delta;
         particle.x += particle.drift * delta;
         particle.angle += particle.spin * delta;
         particle.phase += delta * 5;
-        if (particle.age >= 4 || particle.y > height + 100 || particle.y < -100 || particle.x < -100 || particle.x > width + 100) return false;
+        if (particle.age >= 4 || particle.y > height + 100 || particle.y < -100 || particle.x < -100 || particle.x > width + 100) continue;
         drawBill(particle);
-        return true;
-      });
+        eyeParticles[remaining++] = particle;
+      }
+      eyeParticles.length = remaining;
 
       if (delta > 0) {
-        var origins = eyeOrigins();
-        if (origins) {
-          eyeClock += delta;
-          while (eyeClock >= .12) {
+        eyeClock += delta;
+        if (eyeClock >= .14) {
+          var origins = eyeOrigins();
+          if (origins) {
             emitFromEyes(origins);
-            eyeClock -= .12;
+            eyeClock %= .14;
+          } else {
+            eyeClock = 0;
           }
-        } else {
-          eyeClock = 0;
         }
       }
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      ctx.globalAlpha = 1;
     }
 
     function tick(time) {
@@ -328,7 +396,12 @@
       else frame = window.requestAnimationFrame(tick);
     }
 
-    window.addEventListener('resize', function () { if (enabled) resize(); });
+    window.addEventListener('resize', scheduleResize, { passive: true });
+    if (head && window.ResizeObserver) {
+      var headObserver = new ResizeObserver(cacheHeadGeometry);
+      headObserver.observe(head);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(cacheHeadGeometry);
     document.addEventListener('visibilitychange', syncAnimation);
     motion.addEventListener('change', syncAnimation);
     return {

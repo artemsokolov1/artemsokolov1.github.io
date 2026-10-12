@@ -68,6 +68,7 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+a, button { touch-action: manipulation; }
 h1, h2, p { margin: 0; }
 img { display: block; max-width: 100%; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
@@ -83,7 +84,7 @@ img { display: block; max-width: 100%; }
   gap: 96px;
 }
 
-.money-rain { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+.money-rain { position: fixed; inset: 0; width: 100%; height: 100vh; height: 100lvh; pointer-events: none; z-index: 20; contain: layout paint; transform: translateZ(0); }
 [data-theme="money"] body { background: radial-gradient(ellipse at 50% 12%, #18412a 0, transparent 62%), var(--bg); }
 [data-theme="money"] .hero h1 { color: var(--accent); }
 [data-theme="money"] .tile__shot { box-shadow: 0 0 0 1px #eac66d26; }
@@ -153,6 +154,7 @@ img { display: block; max-width: 100%; }
 [data-theme="dark"] .portrait__side--back .hero__face { filter: brightness(0) invert(1); }
 [data-theme="money"] .portrait__side--back .hero__face { filter: brightness(0) invert(.86) sepia(1) saturate(2.4) hue-rotate(350deg); }
 .hero__face { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.hero__face--animation { position: absolute; inset: 0; }
 .portrait__tools { display: flex; align-items: center; margin-top: 8px; color: var(--faint); }
 .portrait__reset { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
 .portrait__reset:hover { background: var(--chip); color: var(--text); }
