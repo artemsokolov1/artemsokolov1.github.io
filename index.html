@@ -10,7 +10,7 @@
 <script>
 try {
   var savedTheme = localStorage.getItem('as-theme');
-  document.documentElement.dataset.theme = ['light', 'dark', 'money'].includes(savedTheme)
+  document.documentElement.dataset.theme = ['light', 'dark'].includes(savedTheme)
     ? savedTheme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 } catch (e) {}
 </script>
@@ -27,11 +27,10 @@ try {
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-face-32.png">
 <link rel="apple-touch-icon" href="assets/img/favicon-face-180.png">
 <link rel="preload" as="image" type="image/webp" href="assets/img/portrait.webp" fetchpriority="high">
-<link rel="preload" as="image" type="image/webp" href="assets/img/face-money.webp" fetchpriority="low">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=portrait-render-3">
+<link rel="stylesheet" href="assets/css/style.css?v=two-themes-4">
 
 <script type="application/ld+json">
 {
@@ -46,8 +45,6 @@ try {
 </head>
 <body>
 
-<canvas class="money-rain" id="moneyRain" aria-hidden="true" hidden></canvas>
-
 <main class="page">
 
   <!-- ============ НАВИГАЦИЯ ============ -->
@@ -59,7 +56,6 @@ try {
         <button class="theme" id="themeToggle" type="button" aria-label="Переключить тему" title="Переключить тему">
           <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M5.2 5.2l1.3 1.3M17.5 17.5l1.3 1.3M2.6 12h1.8M19.6 12h1.8M5.2 18.8l1.3-1.3M17.5 6.5l1.3-1.3"/></svg>
           <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
-          <svg class="icon icon--money" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><text x="12" y="17" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor" stroke="none">$</text></svg>
         </button>
       <a class="nav__tg" href="https://t.me/i_d_09" target="_blank" rel="noopener">Telegram</a>
     </div>
@@ -71,12 +67,9 @@ try {
       <div class="portrait__rotor" id="portraitRotor">
         <div class="portrait__side portrait__side--front">
           <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync" fetchpriority="high">
-          <img class="hero__face hero__face--money hero__face--money-still" src="assets/img/face-money-still.webp" alt="" width="384" height="560" draggable="false" fetchpriority="high" hidden>
-          <img class="hero__face hero__face--money hero__face--animation" src="assets/img/face-money.webp" alt="" width="288" height="420" draggable="false" decoding="async" fetchpriority="low" hidden>
         </div>
         <div class="portrait__side portrait__side--back" aria-hidden="true" hidden>
           <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync">
-          <img class="hero__face hero__face--money hero__face--money-back" src="assets/img/face-money-still.webp" alt="" width="384" height="560" draggable="false" hidden>
         </div>
       </div>
     </div>
@@ -194,6 +187,6 @@ try {
 
 </main>
 
-<script src="assets/js/main.js?v=portrait-render-3"></script>
+<script src="assets/js/main.js?v=two-themes-4"></script>
 </body>
 </html>

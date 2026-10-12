@@ -1,6 +1,6 @@
 /* =========================================================
    Артём Соколов — портфолио. Вариант «Монолит».
-   Светлая, тёмная и денежная темы.
+   Светлая и тёмная темы.
    ========================================================= */
 
 :root {
@@ -37,22 +37,6 @@
   --ok:      #34d399;
 }
 
-[data-theme="money"] {
-  --bg:      #081c15;
-  --card:    #14382b;
-  --chip:    #1b3d2e;
-  --line:    #34533a;
-  --text:    #faf3da;
-  --muted:   #d6dfc9;
-  --dim:     #bbcdb8;
-  --faint:   #aabc9e;
-  --ink:     #eac66d;
-  --ink-text:#13281c;
-  --ink-dim: #35472b;
-  --accent:  #f2cf78;
-  --ok:      #227346;
-}
-
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
@@ -83,11 +67,6 @@ img { display: block; max-width: 100%; }
   flex-direction: column;
   gap: 96px;
 }
-
-.money-rain { position: fixed; inset: 0; width: 100%; height: 100vh; height: 100lvh; pointer-events: none; z-index: 20; contain: layout paint; transform: translateZ(0); }
-[data-theme="money"] body { background: radial-gradient(ellipse at 50% 12%, #18412a 0, transparent 62%), var(--bg); }
-[data-theme="money"] .hero h1 { color: var(--accent); }
-[data-theme="money"] .tile__shot { box-shadow: 0 0 0 1px #eac66d26; }
 
 /* ---------- Навигация ---------- */
 .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
@@ -127,8 +106,7 @@ img { display: block; max-width: 100%; }
 }
 .theme .icon { display: none; }
 [data-theme="light"] .theme .icon--sun,
-[data-theme="dark"] .theme .icon--moon,
-[data-theme="money"] .theme .icon--money { display: block; }
+[data-theme="dark"] .theme .icon--moon { display: block; }
 
 /* ---------- Шапка ---------- */
 .hero { display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: -16px; }
@@ -152,7 +130,6 @@ img { display: block; max-width: 100%; }
 }
 .portrait__side--back .hero__face { filter: brightness(0); }
 [data-theme="dark"] .portrait__side--back .hero__face { filter: brightness(0) invert(1); }
-[data-theme="money"] .portrait__side--back .hero__face { filter: brightness(0) invert(.86) sepia(1) saturate(2.4) hue-rotate(350deg); }
 .hero__face { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .portrait__tools { display: flex; align-items: center; margin-top: 8px; color: var(--faint); }
 .portrait__reset { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
