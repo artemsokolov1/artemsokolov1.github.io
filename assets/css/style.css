@@ -167,13 +167,13 @@ img { display: block; max-width: 100%; }
   object-fit: cover;
   transition: transform .35s ease;
 }
-.tile:hover .tile__shot img { transform: scale(1.04); }
+a.tile:hover .tile__shot img, a.tile__shot:hover img { transform: scale(1.04); }
 .tile__row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 4px; }
 .tile__row--platforms { flex-wrap: wrap; }
 .tile__platforms { display: flex; flex-wrap: wrap; gap: 6px; }
 .tile__platforms a:hover { background: var(--line); color: var(--text); }
 .tile__name { font-size: 20px; font-weight: 700; letter-spacing: -.01em; transition: color .15s ease; }
-.tile:hover .tile__name { color: var(--accent); }
+a.tile:hover .tile__name, a.tile__name:hover { color: var(--accent); }
 .tile__tag {
   flex: none;
   padding: 5px 11px;
