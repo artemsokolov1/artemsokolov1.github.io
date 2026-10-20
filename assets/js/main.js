@@ -41,8 +41,20 @@
     toggle.addEventListener('click', function () {
       var index = themes.indexOf(root.getAttribute('data-theme'));
       var next = themes[(index + 1) % themes.length];
-      applyTheme(next);
       try { localStorage.setItem(KEY, next); } catch (e) {}
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || calm) { applyTheme(next); return; }
+      // Новая тема растекается кругом от кнопки
+      var r = toggle.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      var vt = document.startViewTransition(function () { applyTheme(next); });
+      vt.ready.then(function () {
+        root.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 650, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      });
     });
   }
 
@@ -164,6 +176,200 @@
         shot.classList.remove('is-hover');
       });
     });
+  })();
+
+
+  /* ---------- Имя появляется по буквам ---------- */
+  (function () {
+    var h1 = document.querySelector('.hero h1');
+    if (!h1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var text = h1.textContent;
+    h1.setAttribute('aria-label', text);
+    h1.textContent = '';
+    var i = 0;
+    text.split(' ').forEach(function (word, w) {
+      if (w) h1.appendChild(document.createTextNode(' '));
+      var wrap = document.createElement('span');
+      wrap.className = 'word'; wrap.setAttribute('aria-hidden', 'true');
+      word.split('').forEach(function (ch) {
+        var s = document.createElement('span');
+        s.className = 'char'; s.textContent = ch;
+        s.style.animationDelay = (0.15 + i++ * 0.035) + 's';
+        wrap.appendChild(s);
+      });
+      h1.appendChild(wrap);
+    });
+    h1.classList.add('is-split');
+  })();
+
+  /* ---------- Магнитные кнопки ---------- */
+  (function () {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.nav__tg, .theme, .nav__links a, .tile__tag, .copy').forEach(function (el) {
+      el.classList.add('magnet');
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        el.style.transform = 'translate(' + (dx * .3).toFixed(1) + 'px,' + (dy * .4).toFixed(1) + 'px)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+  })();
+
+  /* ---------- Плавная прокрутка с инерцией (только колесо мыши) ---------- */
+  (function () {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    root.style.scrollBehavior = 'auto';
+    var target = window.scrollY, current = target, running = false;
+    function max() { return document.documentElement.scrollHeight - innerHeight; }
+    function loop() {
+      current += (target - current) * 0.1;
+      if (Math.abs(target - current) < 0.5) current = target;
+      window.scrollTo(0, current);
+      running = current !== target;
+      if (running) requestAnimationFrame(loop);
+    }
+    function go(y) {
+      target = Math.max(0, Math.min(max(), y));
+      if (!running) { current = window.scrollY; running = true; requestAnimationFrame(loop); }
+    }
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.defaultPrevented || document.body.classList.contains('game-open')) return;
+      e.preventDefault();
+      var d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
+      go((running ? target : window.scrollY) + d);
+    }, { passive: false });
+    // Клавиатура и полоса прокрутки — синхронизируемся
+    window.addEventListener('scroll', function () { if (!running) target = current = window.scrollY; }, { passive: true });
+    // Якорные ссылки — тоже плавно
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      go(el.getBoundingClientRect().top + window.scrollY - 24);
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  })();
+
+  /* ---------- Пасхалка: тройной клик по фото — мини-игра «Чеканка» ---------- */
+  (function () {
+    var photo = document.getElementById('photo');
+    if (!photo) return;
+    var taps = [];
+    photo.addEventListener('click', function () {
+      var now = Date.now();
+      taps = taps.filter(function (t) { return now - t < 600; });
+      taps.push(now);
+      if (taps.length >= 3) { taps = []; openGame(); }
+    });
+
+    function openGame() {
+      if (document.querySelector('.egg')) return;
+      var best = 0;
+      try { best = +localStorage.getItem('as-egg-best') || 0; } catch (e) {}
+      var box = document.createElement('div');
+      box.className = 'egg';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-label', 'Мини-игра Чеканка');
+      box.innerHTML =
+        '<canvas class="egg__c"></canvas>' +
+        '<div class="egg__hud"><span class="egg__score">0</span><span class="egg__best">рекорд ' + best + '</span></div>' +
+        '<p class="egg__hint">Пасхалка! Не дай мячу упасть — жми по нему</p>' +
+        '<button class="egg__close" type="button" aria-label="Закрыть">×</button>';
+      document.body.appendChild(box);
+      document.body.classList.add('game-open');
+      var c = box.querySelector('canvas'), g = c.getContext('2d');
+      var scoreEl = box.querySelector('.egg__score'), bestEl = box.querySelector('.egg__best'), hint = box.querySelector('.egg__hint');
+      var W, H, R, dpr = Math.min(devicePixelRatio || 1, 2);
+      function size() {
+        W = innerWidth; H = innerHeight;
+        c.width = W * dpr; c.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+        R = Math.max(34, Math.min(W, H) * .06);
+      }
+      size();
+      addEventListener('resize', size);
+      function fresh() { return { x: W / 2, y: H * .4, vx: 0, vy: 0, a: 0, va: 0 }; }
+      var ball = fresh(), score = 0, started = false, raf, parts = [];
+      var dark = root.getAttribute('data-theme') === 'dark';
+
+      function kick(px, py) {
+        var dx = px - ball.x, dy = py - ball.y;
+        if (dx * dx + dy * dy > (R * 1.6) * (R * 1.6)) return;
+        started = true; hint.style.opacity = 0;
+        ball.vy = -Math.min(17, 12 + score * .15);
+        ball.vx = -dx * .22 + (Math.random() - .5) * 3;
+        ball.va = -dx * .01;
+        score++; scoreEl.textContent = score;
+        for (var i = 0; i < 10; i++) parts.push({ x: px, y: py, vx: (Math.random() - .5) * 8, vy: (Math.random() - .8) * 7, l: 1 });
+      }
+      c.addEventListener('pointerdown', function (e) { kick(e.clientX, e.clientY); });
+
+      function drawBall() {
+        g.save(); g.translate(ball.x, ball.y); g.rotate(ball.a);
+        g.fillStyle = '#fff'; g.beginPath(); g.arc(0, 0, R, 0, Math.PI * 2); g.fill();
+        g.lineWidth = 2; g.strokeStyle = '#111'; g.stroke();
+        g.fillStyle = '#111';
+        for (var k = 0; k < 6; k++) {
+          var ang = k * Math.PI / 3, rr = k ? R * .72 : 0;
+          var cx = Math.cos(ang) * rr, cy = Math.sin(ang) * rr, s = R * (k ? .22 : .3);
+          g.beginPath();
+          for (var p = 0; p < 5; p++) {
+            var t = p * Math.PI * 2 / 5 - Math.PI / 2;
+            if (p) g.lineTo(cx + Math.cos(t) * s, cy + Math.sin(t) * s); else g.moveTo(cx + Math.cos(t) * s, cy + Math.sin(t) * s);
+          }
+          g.closePath(); g.fill();
+        }
+        g.restore();
+      }
+
+      function frame() {
+        if (started) {
+          ball.vy += .45; ball.x += ball.vx; ball.y += ball.vy; ball.a += ball.va;
+          if (ball.x < R) { ball.x = R; ball.vx *= -.8; }
+          if (ball.x > W - R) { ball.x = W - R; ball.vx *= -.8; }
+          if (ball.y - R > H) {
+            if (score > best) { best = score; try { localStorage.setItem('as-egg-best', best); } catch (e) {} }
+            bestEl.textContent = 'рекорд ' + best;
+            hint.textContent = 'Упал! Счёт: ' + score + '. Жми по мячу ещё раз';
+            hint.style.opacity = 1;
+            score = 0; scoreEl.textContent = 0; started = false;
+            ball = fresh();
+          }
+        } else {
+          ball.y = H * .4 + Math.sin(Date.now() / 300) * 8;
+        }
+        g.clearRect(0, 0, W, H);
+        var sh = Math.max(.3, 1 - (H - 40 - ball.y) / H);
+        g.fillStyle = dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.08)';
+        g.beginPath(); g.ellipse(ball.x, H - 40, R * sh, R * .25 * sh, 0, 0, Math.PI * 2); g.fill();
+        parts = parts.filter(function (p) { return p.l > 0; });
+        parts.forEach(function (p) {
+          p.x += p.vx; p.y += p.vy; p.vy += .3; p.l -= .04;
+          g.globalAlpha = Math.max(0, p.l); g.fillStyle = '#3a3af0'; g.fillRect(p.x, p.y, 4, 4);
+        });
+        g.globalAlpha = 1;
+        drawBall();
+        raf = requestAnimationFrame(frame);
+      }
+      frame();
+
+      function onKey(e) { if (e.key === 'Escape') close(); }
+      function close() {
+        cancelAnimationFrame(raf);
+        removeEventListener('resize', size);
+        removeEventListener('keydown', onKey);
+        box.remove();
+        document.body.classList.remove('game-open');
+      }
+      addEventListener('keydown', onKey);
+      var closeBtn = box.querySelector('.egg__close');
+      closeBtn.addEventListener('click', close);
+      closeBtn.focus();
+    }
   })();
 
   /* ---------- Копирование кошелька ---------- */
