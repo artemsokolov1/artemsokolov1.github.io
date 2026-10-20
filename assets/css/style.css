@@ -259,7 +259,7 @@ a.tile:hover .tile__name, a.tile__name:hover { color: var(--accent); }
   .grid--games { grid-template-columns: 1fr; gap: 28px; }
   .grid--games .tile__shot { border-radius: 18px; }
   .grid--games .tile__name { font-size: 18px; }
-  .grid--games .tile__desc { font-size: 14px; }
+  .grid--games .tile__desc { display: none; }
 
   .grid--services { gap: 24px 12px; }
   .grid--services .tile { gap: 10px; }
