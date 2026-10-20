@@ -24,13 +24,13 @@ try {
 <meta property="og:image" content="https://artemsokolovdev.ru/assets/img/artem.jpg">
 <meta name="twitter:card" content="summary">
 
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-face-32.png">
-<link rel="apple-touch-icon" href="assets/img/favicon-face-180.png">
-<link rel="preload" as="image" type="image/webp" href="assets/img/portrait.webp" fetchpriority="high">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-mono-32.png">
+<link rel="apple-touch-icon" href="assets/img/favicon-mono-180.png">
+<link rel="preload" as="image" type="image/webp" href="assets/img/portrait-720.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=platform-hover-6">
+<link rel="stylesheet" href="assets/css/style.css?v=fx-1">
 
 <script type="application/ld+json">
 {
@@ -63,20 +63,13 @@ try {
 
   <!-- ============ ШАПКА ============ -->
   <header class="hero">
-    <div class="portrait" id="portrait" role="slider" tabindex="0" aria-label="Поворот портрета Артёма Соколова" aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0" aria-valuetext="Лицевая сторона, 0 градусов" aria-describedby="portraitKeyboard">
-      <div class="portrait__rotor" id="portraitRotor">
-        <div class="portrait__side portrait__side--front">
-          <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync" fetchpriority="high">
-        </div>
-        <div class="portrait__side portrait__side--back" aria-hidden="true" hidden>
-          <img class="hero__face hero__face--regular" src="assets/img/portrait.webp" alt="" width="439" height="640" draggable="false" decoding="sync">
-        </div>
-      </div>
-    </div>
-    <div class="portrait__tools">
-      <button class="portrait__reset" id="portraitReset" type="button" aria-label="Сбросить поворот портрета" title="Сбросить поворот"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 2 8M4 4v6h6"/></svg></button>
-    </div>
-    <span class="sr-only" id="portraitKeyboard">Стрелки влево и вправо поворачивают портрет. Стрелки вверх и вниз наклоняют его. Home возвращает лицевую сторону.</span>
+    <div class="hero__bg" aria-hidden="true"><i></i><i></i><i></i></div>
+    <figure class="photo" id="photo">
+      <picture>
+        <source type="image/webp" srcset="assets/img/portrait-720.webp">
+        <img class="photo__img" src="assets/img/portrait-720.jpg" width="720" height="756" alt="Артём Соколов" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
     <h1>Артём Соколов</h1>
     <p>AI-разработчик · 22 года · Новосибирск. Делаю игры и сервисы с помощью ИИ.</p>
   </header>
@@ -220,6 +213,6 @@ try {
 
 </main>
 
-<script src="assets/js/main.js?v=two-themes-4"></script>
+<script src="assets/js/main.js?v=fx-1"></script>
 </body>
 </html>
