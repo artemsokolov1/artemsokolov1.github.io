@@ -43,7 +43,9 @@
       var next = themes[(index + 1) % themes.length];
       try { localStorage.setItem(KEY, next); } catch (e) {}
       var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!document.startViewTransition || calm) { applyTheme(next); return; }
+      // На телефонах полоса браузера (Safari) красится сразу, раньше круга, поэтому там обычная смена
+      var touch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (!document.startViewTransition || calm || touch) { applyTheme(next); return; }
       // Новая тема растекается кругом от кнопки
       var r = toggle.getBoundingClientRect();
       var x = r.left + r.width / 2, y = r.top + r.height / 2;
