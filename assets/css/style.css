@@ -164,7 +164,7 @@ a.tile:hover .tile__shot img, a.tile__shot:hover img { transform: scale(1.04); }
 .tile__platforms a:hover { background: var(--line); color: var(--text); }
 .tile__name { font-size: 20px; font-weight: 700; letter-spacing: -.01em; transition: color .15s ease; }
 a.tile:hover .tile__name, a.tile__name:hover { color: var(--accent); }
-.tile__tag {
+.tile__tag, .tile__domain {
   flex: none;
   padding: 5px 11px;
   border-radius: 999px;
@@ -173,7 +173,7 @@ a.tile:hover .tile__name, a.tile__name:hover { color: var(--accent); }
   font-weight: 600;
   color: var(--muted);
 }
-.tile__domain { flex: none; font-size: 13px; font-weight: 600; color: var(--faint); }
+a.tile:hover .tile__domain { background: var(--line); color: var(--text); }
 .tile__desc { margin-top: -6px; padding: 0 4px; font-size: 15px; color: var(--dim); }
 .tile__badge {
   position: absolute;
@@ -262,9 +262,8 @@ a.tile:hover .tile__name, a.tile__name:hover { color: var(--accent); }
   .grid--games .tile__shot img, .grid--services .tile__shot img { aspect-ratio: 1 / 1; }
   .grid--games .tile__row, .grid--services .tile__row { flex-direction: column; align-items: flex-start; gap: 2px; padding: 0; }
   .grid--games .tile__name, .grid--services .tile__name { font-size: 15px; }
-  .grid--services .tile__domain { font-size: 12px; }
   .grid--games .tile__desc, .grid--services .tile__desc { display: none; }
-  .grid--games .tile__tag { padding: 3px 8px; font-size: 11px; }
+  .grid--games .tile__tag, .grid--services .tile__domain { padding: 3px 8px; font-size: 11px; }
   .grid--services .tile__badge { top: 8px; right: 8px; padding: 3px 8px; font-size: 11px; }
 
   .donate { flex-direction: column; align-items: stretch; gap: 16px; padding: 24px 20px; border-radius: 24px; }
